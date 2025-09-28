@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:dpip/api/exptech.dart';
 import 'package:dpip/app/map/_lib/utils.dart';
 import 'package:dpip/app/map/page.dart';
 import 'package:dpip/router.dart';
 import 'package:dpip/utils/log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 String? _pendingChannelKey;
@@ -34,13 +36,18 @@ void handlePendingNotificationNavigation(BuildContext context) {
   _navigateBasedOnChannelKey(context, _pendingChannelKey);
   _pendingChannelKey = null;
 }
-
+Future<void> _showHyperNotification(Map<String, dynamic> data, String channelKey) async {
+   final rtsData = await ExpTech().getRts();
+   hyperCommunicateBridge.showEEW(rtsData.time, 4);
+}
 void _navigateBasedOnChannelKey(BuildContext context, String? channelKey) {
   if (channelKey == null) return;
 
   TalkerManager.instance.debug('Navigating based on channelKey: $channelKey');
 
   if (channelKey.startsWith('eew')) {
+    // MARK: - EEW
+        
     context.push(MapPage.route(options: MapPageOptions(initialLayers: {MapLayer.monitor})));
     return;
   }
@@ -406,4 +413,16 @@ Future<void> notifyInit() async {
   );
 
   AwesomeNotifications().setListeners(onActionReceivedMethod: onActionReceivedMethod);
+}
+
+// ignore: avoid_classes_with_only_static_members
+class hyperCommunicateBridge {
+  static const MethodChannel _channel = MethodChannel('hypercommunicate');
+
+  static Future<void> showEEW(int time,int intensity) async {
+     await _channel.invokeMethod('eew', {
+      "time": time,
+      "intensity": intensity
+     });
+   }
 }
