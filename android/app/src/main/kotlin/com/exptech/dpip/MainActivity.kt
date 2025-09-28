@@ -4,6 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding;
 
 class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,4 +14,10 @@ class MainActivity : FlutterActivity() {
         }
         super.onCreate(savedInstanceState)
     }
+    
+  override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    super.configureFlutterEngine(flutterEngine)
+    HyperCommunicate().registerWith(flutterEngine,this)
+
+  }
 }
