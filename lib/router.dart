@@ -1,3 +1,4 @@
+import 'package:dpip/app/settings/notify/(6.hyper)/page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -176,6 +177,10 @@ final router = GoRouter(
             GoRoute(
               path: SettingsNotifyAnnouncementPage.name,
               builder: (context, state) => const Material(child: SettingsNotifyAnnouncementPage()),
+            ),
+             GoRoute(
+              path: SettingsHyperFocusPage.name,
+              builder: (context, state) => const Material(child: SettingsHyperFocusPage()),
             ),
           ],
         ),

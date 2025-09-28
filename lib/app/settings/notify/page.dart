@@ -9,6 +9,7 @@ import 'package:dpip/app/settings/notify/(3.weather)/evacuation/page.dart';
 import 'package:dpip/app/settings/notify/(3.weather)/thunderstorm/page.dart';
 import 'package:dpip/app/settings/notify/(4.tsunami)/tsunami/page.dart';
 import 'package:dpip/app/settings/notify/(5.basic)/announcement/page.dart';
+import 'package:dpip/app/settings/notify/(6.hyper)/page.dart';
 import 'package:dpip/core/i18n.dart';
 import 'package:dpip/core/preference.dart';
 import 'package:dpip/core/providers.dart';
@@ -278,6 +279,20 @@ class _SettingsNotifyPageState extends State<SettingsNotifyPage> {
                         );
                       },
                     ),
+                     Selector<SettingsNotificationModel, BasicNotifyType>(
+                      selector: (_, model) => model.announcement,
+                      builder: (context, announcement, child) {
+                        return ListSectionTile(
+                          title: "HyperIsland/Focus 超級島/焦點通知適配",
+                          subtitle: Text("配置 HyperDPIP 推送到超級島/焦點通知的資訊 （僅限 HyperOS 3.0+)"),
+                          trailing: const Icon(Symbols.chevron_right_rounded),
+                          icon: Symbols.buttons_alt_rounded,
+                          enabled: !isLoading && enabled,
+                          onTap: () => context.push(SettingsHyperFocusPage.route),
+                        );
+                      },
+                    ),
+                    
                   ],
                 ),
               ],
