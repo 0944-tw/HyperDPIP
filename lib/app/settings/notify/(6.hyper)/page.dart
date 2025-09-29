@@ -35,7 +35,7 @@ class SettingsHyperFocusPage extends StatelessWidget {
               title: const Text("地震警報測試"),
               subtitle: const Text("地震警報測試"),
               onTap: () {
-                hyperCommunicateBridge.showEEW("");
+                hyperCommunicateBridge.showEEW(15,1);
               },
             ),
           ],
@@ -53,7 +53,10 @@ class SettingsHyperFocusPage extends StatelessWidget {
 class hyperCommunicateBridge {
   static const MethodChannel _channel = MethodChannel('hypercommunicate');
 
-  static Future<void> showEEW(String input) async {
-    await _channel.invokeMethod('eew', {'input': input});
-  }
+  static Future<void> showEEW(int time,int intensity) async {
+     await _channel.invokeMethod('eew', {
+      "time": time,
+      "intensity": intensity
+     });
+   }
 }
